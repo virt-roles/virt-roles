@@ -1,0 +1,33 @@
+---
+# Create a disk image file using virt-builder
+#
+# The disk image will have /root/.ssh/authorized_keys populated from the host
+# so it is possible to ssh in using the same root ssh keys as on the host.
+#
+# Vars:
+# - os_version: the virt-builder template to install (see virt-builder --list)
+# - size: the size of the disk (e.g. "32G")
+# - output: the path where the disk image file will be written
+# - format: the disk image file format
+#
+# Example:
+#  - name: install Fedora 33 disk image
+#    include_tasks: virt-builder-create-image.yml
+#    vars:
+#     - os_version: fedora-33
+#     - size: 32G
+#     - output: /var/lib/libvirt/images/fedora-33.img
+#     - format: raw
+- name: install virt-builder
+  dnf:
+     state: present
+     name: ['libguestfs-tools', 'libvirt-daemon', 'libvirt-client']
+  become: yes
+
+- name: start libvirtd service
+  service: name=libvirtd state=started
+  become: yes
+
+- name: create vm image
+  shell: virt-builder {{ os_version }} --quiet --size {{ size }} --output {{ output }} --format {{ format }} --mkdir '/root/.ssh' --chmod '0700:/root/.ssh' --upload '/root/.ssh/authorized_keys:/root/.ssh/authorized_keys' --chmod '0600:/root/.ssh/authorized_keys' --selinux-relabel creates={{ output }}
+  become: yes
