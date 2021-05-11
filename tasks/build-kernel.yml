@@ -1,0 +1,58 @@
+---
+# Build a kernel from source with a given .config
+#
+# Vars:
+# - repo: git repository URL
+# - version: which ref to fetch from the git repository
+# - config_src_path: the local .config file path
+#
+# Example:
+#  - name: build kernel
+#    include_tasks: build-kernel.yml
+#    vars:
+#      - repo: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+#      - version: master
+#      - config_src_path: files/.config
+- name: install kernel build dependencies
+  dnf:
+    state: present
+    name:
+      - bzip2
+      - xz
+      - findutils
+      - git
+      - gzip
+      - m4
+      - perl-interpreter
+      - perl-Carp
+      - perl-devel
+      - perl-generators
+      - make
+      - diffutils
+      - gawk
+      - gcc
+      - gcc-c++
+      - hmaccalc
+      - binutils
+      - bison
+      - flex
+      - hostname
+      - bc
+      - elfutils-devel
+      - dwarves
+      - gcc-plugin-devel
+
+- name: fetch sources from git
+  git:
+    depth: 1 # shallow clone
+    dest: kernel
+    repo: "{{ repo }}"
+    version: "{{ version }}"
+
+- name: copy .config file
+  copy:
+    dest: kernel/
+    src: "{{ config_src_path }}"
+
+- name: build kernel
+  shell: "cd kernel && make -j$(nproc) olddefconfig all"
