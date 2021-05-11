@@ -1,0 +1,77 @@
+---
+# Build QEMU from source
+#
+# Vars:
+# - path: directory where the git repo is cloned
+#         (default: qemu)
+# - repo: git repository URL
+#         (default: https://gitlab.com/qemu-project/qemu.git)
+# - version: which ref to fetch from the git repository
+#            (default: master)
+# - configure_args: ./configure command-line options
+#                   (default: --target-list=x86_64-softmmu)
+#
+# Example:
+#  - include_tasks: build-qemu.yml
+#    vars:
+#      - repo: https://gitlab.com/qemu-project/qemu.git
+#      - version: master
+#      - configure_args: --target-list=x86_64-softmmu
+- name: install QEMU build dependencies
+  dnf:
+    state: present
+    name:
+      - bzip2
+      - cpp
+      - cyrus-sasl-devel
+      - device-mapper-multipath-devel
+      - diffutils
+      - git
+      - glib2-devel
+      - glusterfs-api-devel
+      - glusterfs-devel
+      - gnutls-devel
+      - iasl
+      - libaio-devel
+      - libattr-devel
+      - libcap-devel
+      - libcap-ng-devel
+      - libcurl-devel
+      - libfdt-devel
+      - libgcrypt-devel
+      - libiscsi-devel
+      - libpmem-devel
+      - libpng-devel
+      - librados-devel
+      - librbd-devel
+      - libseccomp-devel
+      - libssh-devel
+      - libtool
+      - libusbx-devel
+      - libuuid-devel
+      - lzo-devel
+      - meson
+      - ncurses-devel
+      - ninja-build
+      - numactl-devel
+      - pciutils-devel
+      - pixman-devel
+      - python3
+      - python3-devel
+      - snappy-devel
+      - systemd-devel
+      - systemtap
+      - systemtap-sdt-devel
+      - usbredir-devel
+      - which
+      - zlib-devel
+
+- name: fetch sources from git
+  git:
+    depth: 1 # shallow clone
+    dest: "{{ path | default('qemu') }}"
+    repo: "{{ repo | default('https://gitlab.com/qemu-project/qemu.git') }}"
+    version: "{{ version | default('master') }}"
+
+- name: build QEMU
+  shell: "cd {{ path | default('qemu') }} && ./configure {{ configure_args | default('--target-list=x86_64-softmmu') }} && make -j$(nproc)"
