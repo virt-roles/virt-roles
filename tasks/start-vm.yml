@@ -9,7 +9,8 @@
 #  - name: start VM
 #    include_tasks: start-vm.yml
 #    vars:
-#     - xml: "{{ lookup('file', 'files/mydomain.xml') }}"
+#     - domain: vm01
+#     - xml: "{{ lookup('file', 'files/vm01.xml') }}"
 #     - host: 192.168.122.192
 - name: install python3-libvirt
   dnf:
@@ -23,7 +24,7 @@
 
 - name: start VM
   virt:
-    name: test
+    name: "{{ domain }}"
     state: running
 
 - name: wait for SSH
