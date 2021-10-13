@@ -1,0 +1,19 @@
+---
+# Stop a libvirt domain
+#
+# Vars:
+# - domain: the name of the libvirt domain
+#
+# Example:
+#  - include_tasks: stop-vm.yml
+#    vars:
+#     - domain: vm01
+- name: install python3-libvirt
+  dnf:
+    state: present
+    name: 'python3-libvirt'
+
+- name: stop VM
+  virt:
+    name: "{{ domain }}"
+    state: shutdown
