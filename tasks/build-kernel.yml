@@ -41,6 +41,7 @@
       - elfutils-devel
       - dwarves
       - gcc-plugin-devel
+      - openssl-devel
 
 - name: fetch sources from git
   git:
