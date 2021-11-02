@@ -22,7 +22,7 @@
 - name: install virt-builder
   dnf:
      state: present
-     name: ['libguestfs-tools', 'libvirt-daemon', 'libvirt-client', 'libvirt-daemon-config-network']
+     name: ['libguestfs-tools', 'guestfs-tools', 'libvirt-daemon', 'libvirt-client', 'libvirt-daemon-config-network']
   become: yes
 
 - name: start libvirtd service
