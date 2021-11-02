@@ -8,6 +8,8 @@
 #         (default: https://gitlab.com/qemu-project/qemu.git)
 # - version: which ref to fetch from the git repository
 #            (default: master)
+# - configure_env_vars: environment variables for ./configure
+#                       (default: none)
 # - configure_args: ./configure command-line options
 #                   (default: --target-list=x86_64-softmmu)
 #
@@ -16,6 +18,7 @@
 #    vars:
 #      - repo: https://gitlab.com/qemu-project/qemu.git
 #      - version: master
+#      - configure_env_vars: AR=/path/to/ar
 #      - configure_args: --target-list=x86_64-softmmu
 - name: install QEMU build dependencies
   dnf:
@@ -74,4 +77,4 @@
     version: "{{ version | default('master') }}"
 
 - name: build QEMU
-  shell: "cd {{ path | default('qemu') }} && ./configure {{ configure_args | default('--target-list=x86_64-softmmu') }} && make -j$(nproc)"
+  shell: "cd {{ path | default('qemu') }} && {{ configure_env_vars | default('') }} ./configure {{ configure_args | default('--target-list=x86_64-softmmu') }} && make -j$(nproc)"
