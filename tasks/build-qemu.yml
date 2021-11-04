@@ -75,6 +75,7 @@
     dest: "{{ path | default('qemu') }}"
     repo: "{{ repo | default('https://gitlab.com/qemu-project/qemu.git') }}"
     version: "{{ version | default('master') }}"
+    recursive: no
 
 - name: build QEMU
   shell: "cd {{ path | default('qemu') }} && {{ configure_env_vars | default('') }} ./configure {{ configure_args | default('--target-list=x86_64-softmmu') }} && make -j$(nproc)"
