@@ -22,6 +22,21 @@ following playbook creates a Fedora disk image:
         - format: raw
 ```
 
+## Setup
+
+Copy or symlink role directories into `~/.ansible/roles/`:
+
+```shell
+$ git clone https://github.com/virt-roles/virt-roles.git
+$ mkdir -p ~/.ansible/roles
+$ cd ~/.ansible/roles
+$ for f in ~/virt-tasks/*; do test -d "$f" && ln -s "$f" .; done
+```
+
+## Documentation
+
+See the README.md file in each role subdirectory for role documentation.
+
 ## Status
 
 I am gradually adding and extending roles as I need them in my day-to-day work.
