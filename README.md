@@ -32,8 +32,9 @@ will be published so your existing playbooks will not break.
 
 ## Contributing
 
-Issues - Please create a GitLab Issue.
-Code - Please raise a GitLab Merge Request.
+Issues - Please create a GitHub Issue.
+
+Code - Please raise a GitHub Pull Request.
 
 ## License
 
