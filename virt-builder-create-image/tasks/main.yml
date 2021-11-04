@@ -1,0 +1,14 @@
+---
+- name: install virt-builder
+  dnf:
+     state: present
+     name: ['libguestfs-tools', 'guestfs-tools', 'libvirt-daemon', 'libvirt-client', 'libvirt-daemon-config-network']
+  become: yes
+
+- name: start libvirtd service
+  service: name=libvirtd state=started
+  become: yes
+
+- name: create vm image
+  shell: virt-builder {{ os_version }} --quiet --size {{ size }} --output {{ output }} --format {{ format|default('raw') }} --mkdir '/root/.ssh' --chmod '0700:/root/.ssh' --upload '/root/.ssh/authorized_keys:/root/.ssh/authorized_keys' --chmod '0600:/root/.ssh/authorized_keys' --selinux-relabel {{ raw_opts }} creates={{ output }}
+  become: yes
