@@ -51,6 +51,8 @@ Issues - Please create a GitHub Issue.
 
 Code - Please raise a GitHub Pull Request.
 
+Chat - Join [#virt-roles:matrix.org](https://matrix.to/#/#virt-roles:matrix.org).
+
 ## License
 
 Licensed under the GNU General Public License 3.0 or any later version.
