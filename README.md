@@ -30,7 +30,7 @@ Copy or symlink role directories into `~/.ansible/roles/`:
 $ git clone https://github.com/virt-roles/virt-roles.git
 $ mkdir -p ~/.ansible/roles
 $ cd ~/.ansible/roles
-$ for f in ~/virt-tasks/*; do test -d "$f" && ln -s "$f" .; done
+$ for f in ~/virt-roles/*; do test -d "$f" && ln -s "$f" .; done
 ```
 
 ## Documentation
